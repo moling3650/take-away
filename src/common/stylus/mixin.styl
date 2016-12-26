@@ -12,3 +12,18 @@ bg-image($url)
   background-image url($url + '@2x.png')
   @media (-webkit-min-device-pixel-ratio: 3), (min-device-pixel-ratio: 3)
     background-image url($url + '@3x.png')
+
+star-items($size, $interspace)
+  $img-size = ($size / 12 * 5) px
+  width $img-size
+  height $img-size
+  margin-right $interspace px
+  background-size $img-size $img-size
+  &:last-child
+    margin-right 0
+  &.on
+    bg-image(s('star%s_on', $size))
+  &.half
+    bg-image(s('star%s_half', $size))
+  &.off
+    bg-image(s('star%s_off', $size))
