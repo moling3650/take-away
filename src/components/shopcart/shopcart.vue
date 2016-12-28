@@ -16,6 +16,11 @@
           {{payDesc}}
         </div>
       </div>
+      <div class="ball-container">
+        <div class="ball" transition="drop" v-for="ball in balls" v-show="ball.show">
+          <div class="inner"></div>
+        </div>
+      </div>
       <div v-show="listShow" class="shopcart-list">
         <div class="list-header">
           <h1 class="title">购物车</h1>
@@ -59,6 +64,18 @@
         default: 0
       }
     },
+    data () {
+      return {
+        balls: [
+          {show: false},
+          {show: false},
+          {show: false},
+          {show: false},
+          {show: false}
+        ],
+        dropBall: []
+      }
+    },
     components: {
       cartcontrol
     },
@@ -88,6 +105,18 @@
       },
       payClass () {
         return (this.totalPrice < this.minPrice) ? 'not-enough' : 'enough'
+      }
+    },
+    methods: {
+      drop (el) {
+        this.balls.map((ball) => {
+          if (!ball.show) {
+            ball.show = true
+            ball.el = el
+            this.dropBall.push(ball)
+            return
+          }
+        })
       }
     }
   }
@@ -182,5 +211,19 @@
           &.enough
             background #00b43c
             color #fff
+    .ball-container
+      .ball
+        position fixed
+        left 32px
+        bottom 22px
+        z-index 200
+        &.drop-transition
+          transition all 0.4s
+          .inner
+            width 16px
+            height 16px
+            border-radius 50%
+            background rgb(0, 160, 220)
+            transition all 0.4s
 
 </style>
