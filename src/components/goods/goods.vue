@@ -36,7 +36,7 @@
         </li>
       </ul>
     </div>
-    <shopcart :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
+    <shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
   </div>
 </template>
 
@@ -59,6 +59,17 @@
             return i
           }
         }
+      },
+      selectFoods () {
+        let foods = []
+        this.goods.map((good) => {
+          good.foods.map((food) => {
+            if (food.count) {
+              foods.push(food)
+            }
+          })
+        })
+        return foods
       }
     },
     methods: {
@@ -220,6 +231,4 @@
             position absolute
             right 0
             bottom 12px
-
-
 </style>
