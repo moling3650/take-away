@@ -57,6 +57,9 @@
       .overview-left
         flex 0 0 137px
         width 137px
+        @media only screen and (max-width: 320px)
+          flex 0 0 120px
+          width 120px
         padding 6px 0
         border-right 1px solid rgba(7, 17, 27, 0.1)
         text-align center
@@ -76,7 +79,9 @@
           color rgb(147, 153, 159)
       .overview-right
         flex 1
-        padding-left 24px
+        padding 6px 0 6px 24px
+        @media only screen and (max-width: 320px)
+          padding-left 6px
         .score-wrapper
           margin-bottom: 8px
           font-size: 0
