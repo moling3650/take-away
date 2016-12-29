@@ -31,7 +31,7 @@
         <ratingselect :select-type="selectType" :only-content="onlyContent" :desc="desc" :ratings="food.ratings"></ratingselect>
         <div class="rating-wrapper">
           <ul v-show="food.ratings && food.ratings.length">
-            <li v-for="rating in food.ratings" class="rating-item border-1px">
+            <li v-show="needShow(rating.rateType, rating.text)" v-for="rating in food.ratings" class="rating-item border-1px">
               <div class="user">
                 <span class="name">{{rating.username}}</span><img :src="rating.avatar" width="12" height="12" class="avatar">
               </div>
@@ -55,8 +55,6 @@
   import split from 'components/split/split'
   import ratingselect from 'components/ratingselect/ratingselect'
 
-  // const POSITIVE = 0
-  // const NEGATIVE = 1
   const ALL = 2
 
   export default {
@@ -89,12 +87,35 @@
         }
         this.$dispatch('cart.add', event.target)
         Vue.set(this.food, 'count', 1)
+      },
+      needShow (type, text) {
+        if (this.onlyContent && !text) {
+          return false
+        }
+        if (this.selectType === ALL) {
+          return true
+        }
+        return type === this.selectType
       }
     },
     components: {
       cartcontrol,
       split,
       ratingselect
+    },
+    events: {
+      'ratingtype.select' (type) {
+        this.selectType = type
+        this.$nextTick(() => {
+          this.scroll.refresh()
+        })
+      },
+      'content.toggle' (onlyContent) {
+        this.onlyContent = onlyContent
+        this.$nextTick(() => {
+          this.scroll.refresh()
+        })
+      }
     },
     data () {
       return {
