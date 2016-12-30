@@ -64,6 +64,7 @@
 
 <script type="text/ecmascript-6">
   import BScroll from 'better-scroll'
+  import {saveToLocal, loadFromLocal} from 'common/js/storage'
   import star from 'components/star/star'
   import split from 'components/split/split'
 
@@ -108,6 +109,7 @@
       toggleFavorite (event) {
         if (event._constructed) {
           this.favorite = !this.favorite
+          saveToLocal(this.seller.id, 'favorite', this.favorite)
         }
       }
     },
@@ -124,7 +126,9 @@
     },
     data () {
       return {
-        favorite: false
+        favorite: (() => {
+          return loadFromLocal(this.seller.id, 'favorite', false)
+        })()
       }
     },
     created () {
