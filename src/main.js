@@ -34,4 +34,4 @@ router.map({
 router.start(app, '#app')
 
 // 跳转到/goods
-router.go('/goods')
+// router.go('/goods')
