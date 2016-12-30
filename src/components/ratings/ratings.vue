@@ -28,7 +28,7 @@
       <ratingselect :select-type="selectType" :only-content="onlyContent" :desc="desc" :ratings="ratings"></ratingselect>
       <div class="rating-wrapper">
         <ul>
-          <li v-for="rating in ratings" class="rating-item">
+          <li v-for="rating in ratings" v-show="needShow(rating.rateType, rating.text)" class="rating-item">
             <div class="avatar"><img width="28" height="28" :src="rating.avatar" alt="avatar" /></div>
             <div class="content">
               <h1 class="name">{{rating.username}}</h1>
@@ -70,10 +70,35 @@
       split,
       ratingselect
     },
+    methods: {
+      needShow (type, text) {
+        if (this.onlyContent && !text) {
+          return false
+        }
+        if (this.selectType === ALL) {
+          return true
+        }
+        return type === this.selectType
+      }
+    },
     filters: {
       formatDate (time) {
         let date = new Date(time)
         return formatDate(date, 'yyyy-MM-dd hh:mm')
+      }
+    },
+    events: {
+      'ratingtype.select' (type) {
+        this.selectType = type
+        this.$nextTick(() => {
+          this.scroll.refresh()
+        })
+      },
+      'content.toggle' (onlyContent) {
+        this.onlyContent = onlyContent
+        this.$nextTick(() => {
+          this.scroll.refresh()
+        })
       }
     },
     created () {
