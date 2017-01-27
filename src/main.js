@@ -30,6 +30,13 @@ router.map({
   }
 })
 
+router.redirect({
+  // 重定向 / 到 /goods
+  '/': '/goods',
+  // 重定向任意未匹配路径到 /goods
+  '*': '/goods'
+})
+
 // 挂载路由
 router.start(app, '#app')
 
